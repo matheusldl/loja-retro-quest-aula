@@ -1,11 +1,15 @@
 import java.util.ArrayList;
 
 public class Carrinho {
-    private ArrayList<ProdutoJogo> carrinho = new ArrayList<>();
-    private double totalCarrinho = 0;
+    private ArrayList<ProdutoJogo> cartazLista = new ArrayList<>();
+
+    private double precoTotalCarrinho = total(0);
+
+
+
 
     public double total(double resultado){
-        for (ProdutoJogo p: carrinho) {
+        for (ProdutoJogo p: cartazLista) {
             resultado += p.getPreco();
         }
         aplicarDesconto(resultado);
@@ -19,26 +23,28 @@ public class Carrinho {
 
     private double aplicarDesconto(double total){
         if (podeAplicarDesconto(total)) {
-            return total = (total - (total * 0.15));
+            return (total - (total * 0.15));
         }
         else return total;
     }
 
 
 
-    public ArrayList<ProdutoJogo> getCarrinho() {
-        return carrinho;
+    public ArrayList<ProdutoJogo> getCartazLista() {
+        return cartazLista;
     }
 
-    public void setCarrinho(ArrayList<ProdutoJogo> carrinho) {
-        carrinho = carrinho;
+    public void setCartazLista(ArrayList<ProdutoJogo> cartazLista) {
+        cartazLista = cartazLista;
     }
 
-    public double getTotalCarrinho() {
-        return totalCarrinho;
+    public double getPrecoTotalCarrinho() {
+        return precoTotalCarrinho;
     }
 
-    public void setTotalCarrinho(double totalCarrinho) {
-        this.totalCarrinho = totalCarrinho;
+    public void setPrecoTotalCarrinho(double precoTotalCarrinho) {
+        this.precoTotalCarrinho = precoTotalCarrinho;
     }
+
+
 }
