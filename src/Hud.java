@@ -12,7 +12,6 @@ public class Hud extends JFrame {
 
 
     public Hud() {
-
         this.carrinho = new Carrinho();
         this.loja = new Loja();
 
@@ -27,14 +26,26 @@ public class Hud extends JFrame {
 
     private JPanel telaPrincipal(){
         JPanel telaPrincipal = new JPanel();
-        telaPrincipal.setLayout(new GridLayout(0, 4, 10, 10));
+        telaPrincipal.setLayout(new BorderLayout());
 
+// parte do " card "
+
+        JPanel Cards = new JPanel();
+        Cards.setLayout(new BoxLayout(Cards, BoxLayout.X_AXIS));
         for(ProdutoJogo jogo : loja.getJogosVenda()){
-            telaPrincipal.add(Card(jogo));
+            Cards.add(Card(jogo));
         }
 
+
+        // parte do dinheiro soma
+
+        JPanel mostradorPreco = new JPanel();
+        Cards.add(totalTextoCarrinho);
+        telaPrincipal.add(Cards);
         totalTextoCarrinho.setText("R$ 0,00");
-        telaPrincipal.add(totalTextoCarrinho);
+
+
+
 
 
         return telaPrincipal;
