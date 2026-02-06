@@ -1,12 +1,21 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Hud extends JFrame {
-    Carrinho carrinho = new Carrinho();
+    Carrinho carrinho;
+    Loja loja;
+
+    ArrayList<Carrinho> cartaz = new ArrayList<>();
+
     private JLabel totalTextoCarrinho = new JLabel();
 
 
     public Hud() {
+
+        this.carrinho = new Carrinho();
+        this.loja = new Loja();
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(850, 650);
         setLocationRelativeTo(null);
@@ -18,32 +27,35 @@ public class Hud extends JFrame {
 
     private JPanel telaPrincipal(){
         JPanel telaPrincipal = new JPanel();
-        telaPrincipal.setLayout(new GridLayout(1, 4, 10, 10));
+        telaPrincipal.setLayout(new GridLayout(0, 4, 10, 10));
 
-        telaPrincipal.add(Card(nomeJogoEPreco("Arata"), preco(51.99), imagemJogo("src/fotosJogo/aventura.png")));
-        telaPrincipal.add(Card(nomeJogoEPreco("Arata"), preco(51.99), imagemJogo("src/fotosJogo/aventura.png")));
-        telaPrincipal.add(Card(nomeJogoEPreco("Arata"), preco(51.99), imagemJogo("src/fotosJogo/aventura.png")));
+        for(ProdutoJogo jogo : loja.getJogosVenda()){
+            telaPrincipal.add(Card(jogo));
+        }
+
+        totalTextoCarrinho.setText("Total: " + carrinho.getPrecoTotalCarrinho());
         telaPrincipal.add(totalTextoCarrinho);
-        totalTextoCarrinho.setText("R$ 0,00");
-
 
 
         return telaPrincipal;
     }
 
-    private JPanel Card(JLabel nome, JLabel preco, JLabel img) {
+
+
+    private JPanel Card(ProdutoJogo jogo) {
         //bastante dificuldade aqui, tive que pesquisar com o tio GPT como funciona essa parte, mas sem ele dar a resposta)
 
         JPanel janela = new JPanel();
         janela.setLayout(new BoxLayout(janela, BoxLayout.Y_AXIS));
 
-        janela.add(nome);
-        janela.add(img);
-        janela.add(preco);
-        JButton add = botaoAdd();
-        JButton remover = botaoRemover();
-        janela.add(add);
-        janela.add(remover);
+        JLabel preco = precoJogo(jogo.getPreco()); janela.add(preco);
+
+        JLabel img = imagemJogo(jogo.getImagem()); janela.add(img);
+
+        JLabel nome = nomeJogo(jogo.getNome());  janela.add(nome);
+
+        JButton add = botaoAdd(jogo.getPreco()); janela.add(add);
+        JButton remover = botaoRemover(jogo.getPreco());  janela.add(remover);
 
         preco.setAlignmentX(Component.CENTER_ALIGNMENT);
         img.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -56,14 +68,14 @@ public class Hud extends JFrame {
     }
 
 
-    private final JButton botaoAdd() {
+    private final JButton botaoAdd(double valor) {
         JButton botao = new JButton();
         botao.setText("Adicionar");
         botao.setSize(200, 40);
         botao.setBackground(Color.green);
 
         botao.addActionListener(e -> {
-            carrinho.setPrecoTotalCarrinho(carrinho.getPrecoTotalCarrinho() + 5);
+            carrinho.setPrecoTotalCarrinho(carrinho.getPrecoTotalCarrinho() + valor);
             totalTextoCarrinho.setText(String.valueOf("R$ " + carrinho.getPrecoTotalCarrinho()));
         });
 
@@ -71,39 +83,43 @@ public class Hud extends JFrame {
         return botao;
     }
 
-    private final JButton botaoRemover() {
+    private final JButton botaoRemover(double valor) {
         JButton botao = new JButton();
         botao.setText("Remover");
         botao.setSize(200, 40);
         botao.setBackground(Color.red);
-        carrinho.setPrecoTotalCarrinho(carrinho.getPrecoTotalCarrinho());
+
+        botao.addActionListener(e -> {
+            carrinho.setPrecoTotalCarrinho(carrinho.getPrecoTotalCarrinho() - valor);
+        });
 
         return botao;
     }
 
-    private final JLabel nomeJogoEPreco(String texto) {
+    private final JLabel nomeJogo(String texto) {
         JLabel escrita = new JLabel();
         escrita.setText(texto);
 
         return escrita;
     }
 
-    private final JLabel imagemJogo(String endereco) {
+    private final JLabel imagemJogo(ImageIcon icon) {
         JLabel fotoCriar = new JLabel();
-        ImageIcon fotoJogo = new ImageIcon(endereco);
-        fotoCriar.setIcon(fotoJogo);
+        fotoCriar.setIcon(icon);
         return fotoCriar;
     }
 
-    private final JLabel preco(double preco) {
+    private final JLabel precoJogo(double preco) {
         JLabel precoGame = new JLabel();
-        precoGame.setText(new String("R$ " + Double.toString(preco)));
+        precoGame.setText(String.format("R$ %.2f", preco).replace(".", ","));
 
         return precoGame;
     }
 
-
 }
+
+
+
 
 
 

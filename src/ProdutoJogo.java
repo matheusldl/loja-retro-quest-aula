@@ -3,35 +3,15 @@ import javax.swing.*;
 public class ProdutoJogo {
     private String nome;
     private ImageIcon imagem;
-    private Double preco;
+    private double preco;
 
-    public ProdutoJogo(String nome, ImageIcon imagem, Double preco) {
+    public ProdutoJogo(String nome, double preco, String caminhoImagem) {
         this.nome = nome;
-        this.imagem = imagem;
+        this.imagem = new ImageIcon(caminhoImagem);
         this.preco = preco;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public Double getPreco() {
-        return preco;
-    }
-
-    public void setPreco(Double preco) {
-        this.preco = preco;
-    }
-
-    public ImageIcon getImagem() {
-        return imagem;
-    }
-
-    public void setImagem(ImageIcon imagem) {
-        this.imagem = imagem;
-    }
+    public String getNome() { return nome; }
+    public ImageIcon getImagem() { return imagem; }
+    public double getPreco() { return preco; }
 }
