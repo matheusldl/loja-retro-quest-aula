@@ -7,9 +7,6 @@ public class Carrinho {
     private boolean jaDeuDesconto = false;
 
 
-
-
-
     public ArrayList<ProdutoJogo> getCarrinhoUser() {
         return carrinhoUser;
     }
@@ -22,13 +19,26 @@ public class Carrinho {
 
 
     public double setPrecoTotalCarrinho(double precoTotalCarrinho) {
-        if (precoTotalCarrinho > 150 && !isJaDeuDesconto()){
-            this.jaDeuDesconto = true;
-            return this.precoTotalCarrinho = (getPrecoTotalCarrinho() - (getPrecoTotalCarrinho() * 0.15));
 
+        if (precoTotalCarrinho < 0) {
+            precoTotalCarrinho = 0;
         }
-        return this.precoTotalCarrinho = precoTotalCarrinho;
+
+        if (precoTotalCarrinho <= 150) {
+            this.jaDeuDesconto = false;
+            this.precoTotalCarrinho = precoTotalCarrinho;
+            return this.precoTotalCarrinho;
+        }
+
+        if (!isJaDeuDesconto()) {
+            this.jaDeuDesconto = true;
+            precoTotalCarrinho = precoTotalCarrinho * 0.85;
+        }
+
+        this.precoTotalCarrinho = precoTotalCarrinho;
+        return this.precoTotalCarrinho;
     }
+
 
     public boolean isJaDeuDesconto() {
         return jaDeuDesconto;

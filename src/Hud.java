@@ -33,7 +33,7 @@ public class Hud extends JFrame {
             telaPrincipal.add(Card(jogo));
         }
 
-        totalTextoCarrinho.setText("Total: " + carrinho.getPrecoTotalCarrinho());
+        totalTextoCarrinho.setText("R$ 0,00");
         telaPrincipal.add(totalTextoCarrinho);
 
 
@@ -76,7 +76,15 @@ public class Hud extends JFrame {
 
         botao.addActionListener(e -> {
             carrinho.setPrecoTotalCarrinho(carrinho.getPrecoTotalCarrinho() + valor);
-            totalTextoCarrinho.setText(String.valueOf("R$ " + carrinho.getPrecoTotalCarrinho()));
+            String resultado = String.format("R$ %.2f", carrinho.getPrecoTotalCarrinho());
+
+            if (carrinho.isJaDeuDesconto()){
+                totalTextoCarrinho.setText(resultado + " | 15 OFF");
+            }
+
+            else{
+                totalTextoCarrinho.setText(resultado);
+            }
         });
 
 
@@ -91,6 +99,8 @@ public class Hud extends JFrame {
 
         botao.addActionListener(e -> {
             carrinho.setPrecoTotalCarrinho(carrinho.getPrecoTotalCarrinho() - valor);
+            totalTextoCarrinho.setText(String.format("R$ %.2f", carrinho.getPrecoTotalCarrinho()));
+
         });
 
         return botao;
